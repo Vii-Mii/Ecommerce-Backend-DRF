@@ -24,7 +24,8 @@ class ProductSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Product
-        fields = ['id','title','unit_price','price_with_tax','collection']
+        fields = ['id','title','description','inventory','unit_price','price_with_tax','collection']
+        read_only_fields = ['id']
         
     price_with_tax = serializers.SerializerMethodField(method_name='calculate_tax')
     
