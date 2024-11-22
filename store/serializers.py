@@ -6,10 +6,15 @@ class CollectionSerializer(serializers.ModelSerializer):
     # id = serializers.IntegerField()
     # title = serializers.CharField(max_length =255)
     
+    product_count = serializers.SerializerMethodField()
     class Meta:
         model = Collection
-        fields = ['id','title']
-    
+        fields = ['id','title','product_count']
+        read_only_fields = ['id','product_count']
+        
+    def get_product_count(self, obj):
+        # The 'obj' is the Collection instance, and we want to get the count of related products
+        return obj.product_set.count()
 
 class ProductSerializer(serializers.ModelSerializer):
     # id = serializers.IntegerField()
