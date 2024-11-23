@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from decimal import Decimal
-from .models import Collection, Product
+from .models import Collection, Product, Review
 
 class CollectionSerializer(serializers.ModelSerializer):
     # id = serializers.IntegerField()
@@ -17,16 +17,6 @@ class CollectionSerializer(serializers.ModelSerializer):
         return obj.product_set.count()
 
 class ProductSerializer(serializers.ModelSerializer):
-    # id = serializers.IntegerField()
-    # title = serializers.CharField(max_length=255)
-    # price = serializers.DecimalField(max_digits=6,decimal_places=2,source='unit_price')
-    # price_tax = serializers.SerializerMethodField(method_name='calculate_tax')
-    # collection = serializers.HyperlinkedRelatedField(
-    #     queryset = Collection.objects.all(),
-    #     view_name = 'collection_detail',
-    #     lookup_field='id'
-    # )
-    
     class Meta:
         model = Product
         fields = ['id','title','description','inventory','unit_price','price_with_tax','collection']
@@ -36,4 +26,9 @@ class ProductSerializer(serializers.ModelSerializer):
     
     def calculate_tax(self,product):
         return product.unit_price * Decimal(1.1)
+    
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ['id','name','description','date','product']
     
